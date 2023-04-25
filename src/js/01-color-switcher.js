@@ -4,17 +4,17 @@ const btnStop = document.querySelector('[data-stop]');
 
 let changeColor = null;
 
-btnStart.addEventListener('click', StartClick);
-btnStop.addEventListener('click', StopClick);
+btnStart.addEventListener('click', startClick);
+btnStop.addEventListener('click', stopClick);
 
-function StartClick() {
+function startClick() {
   btnStart.setAttribute('disabled', true);
   changeColor = setInterval(() => {
     bodyEl.style.backgroundColor = getRandomHexColor();
   }, 1000);
 }
 
-function StopClick() {
+function stopClick() {
   btnStart.removeAttribute('disabled');
   clearInterval(changeColor);
 }
