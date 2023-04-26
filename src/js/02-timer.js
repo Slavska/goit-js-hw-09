@@ -1,15 +1,11 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import Notiflix from 'notiflix';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 require('flatpickr/dist/themes/dark.css');
 
 const inputDate = document.querySelector('#datetime-picker');
 const btnStart = document.querySelector('[data-start]');
 const fieldEl = document.querySelectorAll('.field');
-const daysEl = document.querySelector('[data-days]');
-const hoursEl = document.querySelector('[data-hours]');
-const minutesEl = document.querySelector('[data-minutes]');
-const secondsEl = document.querySelector('[data-seconds]');
 const labelEl = document.querySelectorAll('.label');
 const valueEl = document.querySelectorAll('.value');
 
@@ -26,7 +22,7 @@ const options = {
 
     if (selectedDates[0] < new Date()) {
       btnStart.setAttribute('disabled', true);
-      Notiflix.Notify.failure('Please choose a date in the future');
+      Notify.failure('Please choose a date in the future');
       return;
     }
 
@@ -40,10 +36,9 @@ const options = {
 
         if (timeInterval < 1000) {
           clearInterval(counterInterval);
-        } else {
-          const result = convertMs(timeInterval);
-          addResult(result);
         }
+        const result = convertMs(timeInterval);
+        addResult(result);
       }, 1000);
     });
   },
@@ -52,11 +47,25 @@ const options = {
 flatpickr(inputDate, options);
 
 function addResult({ days, hours, minutes, seconds }) {
-  daysEl.textContent = `${days}`;
-  hoursEl.textContent = `${hours}`;
-  minutesEl.textContent = `${minutes}`;
-  secondsEl.textContent = `${seconds}`;
+  valueEl[0].textContent = `${days}`;
+  valueEl[1].textContent = `${hours}`;
+  valueEl[2].textContent = `${minutes}`;
+  valueEl[3].textContent = `${seconds}`;
 }
+
+// function addResult({ days, hours, minutes, seconds }) {
+//   for (let i = 0; i < valueEl.length; i++) {
+//     if (valueEl[i].hasAttribute('data-days')) {
+//       valueEl[i].textContent = `${days}`;
+//     } else if (valueEl[i].hasAttribute('data-hours')) {
+//       valueEl[i].textContent = `${hours}`;
+//     } else if (valueEl[i].hasAttribute('data-minutes')) {
+//       valueEl[i].textContent = `${minutes}`;
+//     } else {
+//       valueEl[i].textContent = `${seconds}`;
+//     }
+//   }
+// }
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
